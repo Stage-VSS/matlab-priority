@@ -6,7 +6,7 @@
 #include <mach/mach_init.h>
 #include <mach/thread_act.h>
 #elif defined _WIN32 || defined _WIN64
-
+#include <windows.h>
 #elif __linux || __unix || __posix
 
 #endif
@@ -37,7 +37,19 @@ void setNormalPriority()
 #elif defined _WIN32 || defined _WIN64
 void setNormalPriority()
 {
-    mexErrMsgIdAndTxt("priority:failed", "Not implemented for this platform");
+	bool result;
+	
+    result = SetPriorityClass(GetCurrentProcess(), NORMAL_PRIORITY_CLASS);
+    if (!result)
+    {
+        mexErrMsgIdAndTxt("priority:failed", "Failed to set max priority");
+    }
+	
+	result = SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_NORMAL);
+	if (!result)
+    {
+        mexErrMsgIdAndTxt("priority:failed", "Failed to set max priority");
+    }
 }
 
 #elif __linux || __unix || __posix

@@ -6,7 +6,7 @@
 #include <mach/mach_init.h>
 #include <mach/thread_act.h>
 #elif defined _WIN32 || defined _WIN64
-
+#include <windows.h>
 #elif __linux || __unix || __posix
 
 #endif
@@ -40,7 +40,19 @@ void setMaxPriority()
 #elif defined _WIN32 || defined _WIN64
 void setMaxPriority()
 {
-    mexErrMsgIdAndTxt("priority:failed", "Not implemented for this platform");
+	bool result;
+	
+    result = SetPriorityClass(GetCurrentProcess(), REALTIME_PRIORITY_CLASS);
+    if (!result)
+    {
+        mexErrMsgIdAndTxt("priority:failed", "Failed to set max priority");
+    }
+	
+	result = SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL);
+	if (!result)
+    {
+        mexErrMsgIdAndTxt("priority:failed", "Failed to set max priority");
+    }
 }
 
 #elif __linux || __unix || __posix
