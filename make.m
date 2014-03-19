@@ -12,10 +12,6 @@ function make(rebuild)
     
     options = '';
     
-    if ismac
-        %options = [options ' LDFLAGS="\$LDFLAGS -framework Cocoa"'];% -framework IOKit"'];
-    end
-    
     sourceFiles = dir(fullfile(projectDir, '*.c'));
     for i = 1:length(sourceFiles)
         source = sourceFiles(i);
