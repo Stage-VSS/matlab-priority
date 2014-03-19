@@ -7,12 +7,8 @@
 #include <mach/thread_act.h>
 #elif defined _WIN32 || defined _WIN64
 
-#elif __linux
-    // linux
-#elif __unix
-    // Unix
-#elif __posix
-    // POSIX
+#elif __linux || __unix || __posix
+
 #endif
 
 #ifdef __APPLE__
@@ -37,6 +33,19 @@ void setNormalPriority()
         mexErrMsgIdAndTxt("priority:failed", "Failed to set normal priority");
     }
 }
+
+#elif defined _WIN32 || defined _WIN64
+void setNormalPriority()
+{
+    mexErrMsgIdAndTxt("priority:failed", "Not implemented for this platform");
+}
+
+#elif __linux || __unix || __posix
+void setNormalPriority()
+{
+    mexErrMsgIdAndTxt("priority:failed", "Not implemented for this platform");
+}
+
 #endif
 
 void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
