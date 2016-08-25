@@ -1,6 +1,6 @@
 # matlab-priority
 
-Mex files to set the MATLAB thread priority.
+MEX files to set the MATLAB thread priority.
 
 ## Requirements
 
